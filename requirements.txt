@@ -1,0 +1,3 @@
+boto3==1.4.8
+twilio==6.9.1
+querystring==0.1.0
