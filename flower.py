@@ -13,7 +13,7 @@ import datetime
 import time
 import os
 import logging
-
+import json
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
@@ -135,6 +135,7 @@ def order_flowers(intent_request):
     Beyond fulfillment, the implementation of this intent demonstrates the use of the elicitSlot dialog action
     in slot validation and re-prompting.
     """
+    print json.dumps(intent_request, indent=4, sort_keys=True)
 
     flower_type = get_slots(intent_request)["FlowerType"]
     date = get_slots(intent_request)["PickupDate"]
