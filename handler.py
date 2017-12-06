@@ -6,10 +6,10 @@ import boto3
 import urllib2
 import base64
 import collections
-import logging
+#import logging
 
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+#logger = logging.getLogger()
+#logger.setLevel(logging.INFO)
 
 hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -21,31 +21,22 @@ hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML,
 def incoming_text(event, context):
     #print event
     twilioSMS = querystring.parse_qs(event['body-json'])
-    print twilioSMS
-    logger.debug('text recieved={}'.format(twilioSMS))
-    body = {
-        "message": twilioSMS['From'],
-        "input": event
-    }
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
-
+    #print twilioSMS
+    #logger.debug('text recieved={}'.format(twilioSMS))
     message = {}
     message['From'] = twilioSMS['From'].replace('+','')
     message['sessionAttributes'] = {}
     message['requestAttributes'] = {}
     if twilioSMS['Body']:
       if 'MediaUrl0' in twilioSMS:
-        text_and_media(twilioSMS)
+        message['Body'] = 'Are there any offers?'
+        model_sku = extract_model_sku(rekognize_text(twilioSMS['MediaUrl0']))
+        message['sessionAttributes'].update(model_sku)
       else:
-        #just_text(twilioSMS)
         message['Body'] = twilioSMS['Body']
     else:
       if 'MediaUrl0' in twilioSMS:
         print 'just media'
-        #just_media(twilioSMS)
         message['Body'] = 'Are there any offers?'
         model_sku = extract_model_sku(rekognize_text(twilioSMS['MediaUrl0']))
         print 'request'
@@ -56,23 +47,6 @@ def incoming_text(event, context):
     response = post_to_lex(message)
     #print response
     message['Body'] = response['message']
-    return_text(message)
-
-def text_and_media(message):
-    return_text(message)
-    message['Body'] = message['MediaUrl0']
-    print rekognize_text(message['MediaUrl0'])
-    return_text(message)
-
-def just_text(message):
-    print boto3.__version__
-    return_text(message)
-
-def just_media(message):
-    message['Body'] = message['MediaUrl0']
-    #print process_text(message['MediaUrl0'])
-    #hack remove later
-    message['Body'] = json.dumps(rekognize_text(message['MediaUrl0']))
     return_text(message)
 
 def rekognize_text(media_url):
@@ -86,12 +60,12 @@ def rekognize_text(media_url):
     contents = image.read()
     img_dict = {}
     img_dict['Bytes'] = contents
-    logger.debug('Sending to rekognition')
+    #logger.debug('Sending to rekognition')
     response = rek_client.detect_text(Image=img_dict)
     return response
 
 def extract_model_sku(response):
-    logger.debug('Extracting text')
+    #logger.debug('Extracting text')
     extraction = {}
     extraction_list = []
     extracted_info = {}
@@ -120,7 +94,7 @@ def return_text(message):
     )
 
 def post_to_lex(message):
-  logger.debug('posting to lex'.format(message))
+  #logger.debug('posting to lex'.format(message))
   #print message
   lex_client = boto3.client('lex-runtime')
   response = lex_client.post_text(

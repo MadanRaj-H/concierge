@@ -32,8 +32,9 @@ img_dict = {}
 img_dict['Bytes'] = contents
 response = client.detect_text(Image=img_dict)
 
-def extract_model_sku(response):
 
+def extract_model_sku(response):
+  print json.dumps(response, indent=4, sort_keys=True)
   extraction = {}
   extraction_list = []
   extracted_info = {}

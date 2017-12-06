@@ -171,10 +171,6 @@ def check_offer(intent_request):
     print 'session after assign'
     print session_attributes
 
-    #session_attributes['Model'] = Model
-    #session_attributes['SKU'] = SKU
-    #print 'attributes'
-    #print session_attributes
     if intent_request['invocationSource'] == 'DialogCodeHook':
         # Validate any slots which have been specified.  If any are invalid, re-elicit for their value
         validation_result = validate_item(intent_request['currentIntent']['slots'])
@@ -191,17 +187,6 @@ def check_offer(intent_request):
                 validation_result['violatedSlot'],
                 validation_result['message']
             )
-
-        # Otherwise, let native DM rules determine how to elicit for slots and prompt for confirmation.  Pass price
-        # back in sessionAttributes once it can be calculated; otherwise clear any setting from sessionAttributes.
-        #if location and checkin_date and nights and room_type:
-            # The price of the hotel has yet to be confirmed.
-        #    price = generate_hotel_price(location, nights, room_type)
-        #    session_attributes['currentReservationPrice'] = price
-        #else:
-        #    try_ex(lambda: session_attributes.pop('currentReservationPrice'))
-        #
-        #session_attributes['currentReservation'] = reservation
         if ('Model' in session_attributes.keys()) or ('SKU' in session_attributes.keys()):
           print 'setting current intents to session attributes'
           intent_request['currentIntent']['slots'] = session_attributes
@@ -218,10 +203,6 @@ def check_offer(intent_request):
         return delegate(session_attributes, intent_request['currentIntent']['slots'])
     print 'intent_request'
     print intent_request
-    # Return offer.  In a real application, this would likely involve a call to a backend service.
-    #logger.debug('bookHotel under={}'.format(reservation))
-    #try_ex(lambda: print session_attributes['Model'])
-    #try_ex(lambda: print session_attributes['SKU'])
 
     return close(
         session_attributes,
