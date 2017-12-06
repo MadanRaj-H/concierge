@@ -1,4 +1,67 @@
-Image links
+ession Agenda
+- Introduce self
+- Introduce team
+- Talk about goals
+  - Teach Lex
+  - Teach Lambda
+  - Teach Rekognition
+  - Briefly describe API Gateway
+  - Briefly describe Twilio
+  - Briefly describe CloudWatch
+  - Mention IAM
+- Agenda
+  - Teach Lex
+    - Walk through OrderFlowers
+
+## Generic Lex
+
+- Explain Bots, intents, slots
+- Explain utterances
+- Explain slots types
+- Explain event loop
+- Create OrderFlowers w/o hooks
+  - Walk through execution
+- Add lambda hooks
+  - create lambda function
+  - add hooks
+  - walk through flow and code
+
+## Boxey Lex
+- Show greeting intent
+  - no slots
+  - just calls lambda function
+- Show learn more
+  - show single slot
+  - show no validation - only fullilment
+  - show lambda code
+- Create apply now
+  - copy greeting.py to apply.py
+  - modify apply.py
+    - change intent dispatch
+    - change content
+      - '"You're on your way towards exclusive Boxey financing and rewards offers!
+Get started with the application here: https://shareproto.io/FHE1WH/'
+    - Modify servless.yml & deploy
+  - create apply_now intent and hook in fullilment
+
+## Rekgonition
+- Show console
+  - Run demo on images
+- Show rek.py
+- Run key.py
+
+## Check_offers
+- Demo it
+- Show api Gateway
+- Show twilio console with webhook
+- show handler.py
+- show backend.py
+
+## Stick landing
+ - Make joke
+ - Drop mike
+
+# Image links
 
 https://s3-us-west-2.amazonaws.com/docs.candelario.rocks/img/2017-11-30+18.47.42.jpg
 
