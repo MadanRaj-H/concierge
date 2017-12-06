@@ -1,4 +1,4 @@
-ession Agenda
+# Session Agenda
 - Introduce self
 - Introduce team
 - Talk about goals
